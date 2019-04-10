@@ -9,7 +9,7 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include "Game.hpp"
-
+#include "Player.hpp"
 
 Game::Game(){
     
@@ -26,7 +26,7 @@ void Game::init(){
         return;
     }
     
-    m_window = SDL_CreateWindow("Ping Pong", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_ALLOW_HIGHDPI);
+    m_window = SDL_CreateWindow("Ping Pong", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_ALLOW_HIGHDPI);
     
     if(!m_window){
         std::cout << "SDL create window failed" << SDL_GetError() << std::endl;;
@@ -34,6 +34,8 @@ void Game::init(){
     }
     
     m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_SOFTWARE);
+    player1 = new Player(SCREEN_WIDTH - Player::PLAYER_WIDTH, SCREEN_HEIGHT/2 );
+    player2 = new Player(0, SCREEN_HEIGHT/2);
     m_isRunning = true;
 }
 
@@ -56,30 +58,16 @@ void Game::update(){
 
 void Game::render(){
     SDL_RenderClear(m_renderer);
-    SDL_Rect player1;
-    player1.x = 800/2;
-    player1.y = 600/2;
-    player1.w = 16;
-    player1.h = 16;
-    
-    SDL_Rect player2;
-    player2.x = 0;
-    player2.y = 600/2;
-    player2.w = 32;
-    player2.h = 32;
-    
-    
     
     SDL_SetRenderDrawColor( m_renderer, 255,255,255, 255 ); //white rect
-    SDL_RenderFillRect(m_renderer, &player1);
+    SDL_RenderFillRect(m_renderer, player1->getHitbox());
 
-    SDL_SetRenderDrawColor( m_renderer, 255,255,255, 255 ); //white rect
-    SDL_RenderFillRect(m_renderer, &player2);
+    SDL_SetRenderDrawColor( m_renderer, 0,255,255, 255 ); //blue rect
+    SDL_RenderFillRect(m_renderer, player2->getHitbox());
 
 
     SDL_SetRenderDrawColor(m_renderer, 41, 41, 41, 255); //black windows
     SDL_RenderPresent(m_renderer);
-    
 }
 
 void Game::clean(){
