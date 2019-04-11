@@ -22,6 +22,7 @@ public:
     void render();
     void clean();
     void handleEvents();
+    void collisionDetect();
     bool isRunning(){return m_isRunning;};
     Player* player1;
     Player* player2;

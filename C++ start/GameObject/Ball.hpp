@@ -9,21 +9,26 @@
 #ifndef Ball_hpp
 #define Ball_hpp
 #include <SDL2/SDL.h>
+#include "Vector.hpp"
 
 class Ball{
 public:
     Ball(int, int);
     Ball();
-    void getSpeed();
-    void setSpeed();
+    float x;
+    float y;
+
     SDL_Rect* getHitbox();
     void resetPosition();
+    void update();
+    void reverseX();
+    void reverseY();
+    void updateHitboxPosition();
     static const int BALL_WIDTH = 16;
     static const int BALL_HEIGHT = 16;
 private:
-    int m_movingSpeed;
-    int m_movingAngle;
     SDL_Rect m_hitBox;
+    Vector m_movingVector;
 };
 
 #endif /* Ball_hpp */
